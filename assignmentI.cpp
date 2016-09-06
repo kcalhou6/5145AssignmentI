@@ -1,9 +1,9 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
-//#include <sys/time.h>
 #include <time.h>
 #include <cstdlib>
+
 using namespace std;
 
 class LLInt {
@@ -81,17 +81,10 @@ int main(int argc, char *argv[])
 	timespec start, end;
 	for (int a = 0; a < atoi(argv[2]); a++) {
 		search = (rand() % 1000000000000000);
-		statFile << "Int to search for " << search << endl;
-		//gettimeofday(&start, NULL);
-		glock_gettime(CLOCK_REALTIME, &start);
+		clock_gettime(CLOCK_REALTIME, &start);
 		LLInt *found = lL.find(search);
-		//gettimeofday(&end, NULL);
-		glock_gettime(CLOCK_REALTIME, &start);
-		//statFile << found << endl;
-		//statFile << start.tv_usec << endl;
-		//statFile << end.tv_usec << endl;
-		//statFile << (end.tv_usec - start.tv_usec) << endl;
-		//statFile << (end.tv_sec - start.tv_sec) << ":" << (end.tv_nsec - start.tv_nsec) << endl;
+		clock_gettime(CLOCK_REALTIME, &end);
+		statFile << (end.tv_nsec - start.tv_nsec) << endl;
 	}
 	statFile << "\n";
 	statFile.close();
