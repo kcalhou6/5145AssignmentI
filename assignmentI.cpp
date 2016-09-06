@@ -1,7 +1,8 @@
 #include <string.h>
 #include <iostream>
-#include <sstream>
-#include <sys/time.h>
+#include <fstream>
+//#include <sys/time.h>
+#include <time.h>
 #include <cstdlib>
 using namespace std;
 
@@ -66,16 +67,32 @@ int main(int argc, char *argv[])
 {
 	LinkedList lL;
 	
+	ofstream statFile;
+	statFile.open ("stats.txt", ios::app);
+	
 	//Insert argv[1] # of random integers into the linked list
 	for (int a = 0; a < atoi(argv[1]); a++) {
-		lL.insert(rand() % 100000);
+		lL.insert(rand() % 1000000000000);
 	}
-	timeval start, end;
+	
+	statFile << "Number of Ints: " << atoi(argv[1]) << endl;
+	int search;
+	//timeval start, end;
+	timespec start, end;
 	for (int a = 0; a < atoi(argv[2]); a++) {
-		gettimeofday(&start, NULL);
-		LLInt *found = lL.find(rand() % 100000);
-		gettimeofday(&end, NULL);
-		cout << found << endl;
-		cout << (end.tv_usec - start.tv_usec) << endl;
+		search = (rand() % 1000000000000000);
+		statFile << "Int to search for " << search << endl;
+		//gettimeofday(&start, NULL);
+		glock_gettime(CLOCK_REALTIME, &start);
+		LLInt *found = lL.find(search);
+		//gettimeofday(&end, NULL);
+		glock_gettime(CLOCK_REALTIME, &start);
+		//statFile << found << endl;
+		//statFile << start.tv_usec << endl;
+		//statFile << end.tv_usec << endl;
+		//statFile << (end.tv_usec - start.tv_usec) << endl;
+		//statFile << (end.tv_sec - start.tv_sec) << ":" << (end.tv_nsec - start.tv_nsec) << endl;
 	}
+	statFile << "\n";
+	statFile.close();
 }
