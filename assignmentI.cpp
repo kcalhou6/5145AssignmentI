@@ -115,7 +115,10 @@ int main(int argc, char *argv[])
 		clock_gettime(CLOCK_REALTIME, &start);
 		LLInt *found = lL.find(search);
 		clock_gettime(CLOCK_REALTIME, &end);
-		statFile << (end.tv_nsec - start.tv_nsec) << endl;
+		if ((end.tvnsec-start.tv_nsec) < 0)
+			statFile << (ent.tv_sec - start.tv_sec - 1) << ":" << (end.tv_nsec - start.tv_nsec + 1000000000) << endl;
+		else		
+			statFile << (end.tv_sec - start.tv_sec) << ":" << (end.tv_nsec - start.tv_nsec) << endl;
 	}
 	statFile << "\n";
 	statFile.close();
